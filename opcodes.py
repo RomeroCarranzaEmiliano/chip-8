@@ -27,12 +27,72 @@
         [COP]   [ x ]   [ y ]   [ n ]
 """
 
+def _00E0(chip, _):
+    """
+        CLS
+        Clear the display
+    """
+    pass
+
+def _00EE(chip, _):
+    """
+        RET
+        Return from a subroutine
+        The interpreter sets the program counter to the address at the top of the stack, then substracts 1 from the
+        stack pointer
+    """
+    chip.registers["PC"] = chip.registers["S"][-1]
+    chip.registers["SP"] -= 0x1
 
 
+def _1000(chip, opcode):
+    """
+        JP addr
+        Jump to location nnn
+        Sets the program counter to nnn
+    """
+    # Get the lower 12 bits of the instruction
+    addr = opcode & 0x000C
 
-instructions = [
-    [], # 0x0
-]
+    chip.registers["PC"] = addr
+
+
+def _2000(chip, opcode):
+    """
+        CALL addr
+        Call subroutine at nnn
+        The interpreter increments the stack pointer, then puts the current PC on the top of the stac. The PC then is
+        set to nnn
+    """
+    # Get the lower 12 bits of the instruction
+    nnn = opcode & 0x0FFF
+
+    chip.registers["SP"] += 0x1
+    chip.registers["S"][-1] = chip.registers["PC"]
+    chip.registers["PC"] = nnn
+
+
+def _3000(chip, opcode):
+    """
+        SE Vx, byte
+        Skip next instruction if Vx = kk.
+        The interpreter compares register Vx to kk, and if they are equal, increments the program counter by 2.
+    """
+    x = (opcode & 0x0F00) >> 0xFF
+    Vx = f"V{str(x)}"
+    kk = opcode & 0x00FF
+
+    if chip.registers[Vx] == kk:
+        chip.registers["PC"] += 0x2
+
+
+dictionary = {
+    "00E0": _00E0,
+    "00EE": _00EE,
+    "1000": _1000,
+    "2000": _2000,
+    "3000": _3000,
+}
 
 
 #dictionary = {

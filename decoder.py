@@ -26,107 +26,107 @@ class Decoder():
         while True:
             if opcode & 0xF000 == 0x0000:
                 if opcode & 0x00FF == 0x00E0:
-                    instruction = "CLS"
+                    instruction = "00E0"
                     break
                 elif opcode & 0x00FF == 0x00EE:
-                    instruction = "RET"
+                    instruction = "00EE"
                     break
             elif opcode & 0xF000 == 0x1000:
-                instruction = "JP addr"
+                instruction = "1000"
                 break
             elif opcode & 0xF000 == 0x2000:
-                instruction = "CALL addr"
+                instruction = "2000"
                 break
             elif opcode & 0xF000 == 0x3000:
-                instruction = "SE Vx, byte"
+                instruction = "3000"
                 break
             elif opcode & 0xF000 == 0x4000:
-                instruction = "SNE Vx, byte"
+                instruction = "4000"
                 break
             elif opcode & 0xF000 == 0x5000:
-                instruction = "SE Vx, Vy"
+                instruction = "5000"
                 break
             elif opcode & 0xF000 == 0x6000:
-                instruction = "LD Vx, byte"
+                instruction = "6000"
                 break
             elif opcode & 0xF000 == 0x7000:
-                instruction = "ADD Vx, byte"
+                instruction = "7000"
                 break
             elif opcode & 0xF000 == 0x8000:
                 if opcode & 0x000F == 0x0000:
-                    instruction = "LD Vx, Vy"
+                    instruction = "8000"
                     break
                 elif opcode & 0x000F == 0x0001:
-                    instruction = "OR Vx, Vy"
+                    instruction = "8001"
                     break
                 elif opcode & 0x000F == 0x0002:
-                    instruction = "AND Vx, Vy"
+                    instruction = "8002"
                     break
                 elif opcode & 0x000F == 0x0003:
-                    instruction = "XOR Vx, Vy"
+                    instruction = "8003"
                     break
                 elif opcode & 0x000F == 0x0004:
-                    instruction = "ADD Vx, Vy"
+                    instruction = "8004"
                     break
                 elif opcode & 0x000F == 0x0005:
-                    instruction = "SUB Vx, Vy"
+                    instruction = "8005"
                     break
                 elif opcode & 0x000F == 0x0006:
-                    instruction = "SHR Vx {, Vy}"
+                    instruction = "8006"
                     break
                 elif opcode & 0x000F == 0x0007:
-                    instruction = "SUBN Vx, Vy"
+                    instruction = "8007"
                     break
                 elif opcode & 0x000F == 0x000E:
-                    instruction = "SHL Vx {, Vy}"
+                    instruction = "800E"
                     break
             elif opcode & 0xF00F == 0x9000:
-                instruction = "SNE Vx, Vy"
+                instruction = "9000"
                 break
             elif opcode & 0xF000 == 0xA000:
-                instruction = "LD I, addr"
+                instruction = "A000"
                 break
             elif opcode & 0xF000 == 0xB000:
-                instruction = "JP V0, addr"
+                instruction = "B000"
                 break
             elif opcode & 0xF000 == 0xC000:
-                instruction = "RND Vx, byte"
+                instruction = "C000"
                 break
             elif opcode & 0xF000 == 0xD000:
-                instruction = "DRW Vx, Vy, nibble"
+                instruction = "D000"
                 break
             elif opcode & 0xF0FF == 0xB09E:
-                instruction = "SKP Vx"
+                instruction = "B09E"
                 break
             elif opcode & 0xF0FF == 0xE0A1:
-                instruction = "SKNP Vx"
+                instruction = "E0A1"
                 break
             elif opcode & 0xF0FF == 0xF007:
-                instruction = "LD Vx, DT"
+                instruction = "F007"
                 break
             elif opcode & 0xF0FF == 0xF00A:
-                instruction = "LD Vx, K"
+                instruction = "F00A"
                 break
             elif opcode & 0xF0FF == 0xF015:
-                instruction = "LD DT, Vx"
+                instruction = "F015"
                 break
             elif opcode & 0xF0FF == 0xF018:
-                instruction = "LD ST, Vx"
+                instruction = "F018"
                 break
             elif opcode & 0xF0FF == 0xF01E:
-                instruction = "ADD I, Vx"
+                instruction = "F01E"
                 break
             elif opcode & 0xF0FF == 0xF029:
-                instruction = "LD F, Vx"
+                instruction = "F029"
                 break
             elif opcode & 0xF0FF == 0xF033:
-                instruction = "LD B, Vx"
+                instruction = "F033"
                 break
             elif opcode & 0xF0FF == 0xF055:
-                instruction = "LD  [I], Vx"
+                instruction = "F055"
                 break
             elif opcode & 0xF0FF == 0xF065:
-                instruction = "LD Vx, [I]"
+                instruction = "F065"
                 break
             break
 
@@ -136,10 +136,4 @@ class Decoder():
             return instruction
 
 
-
-# CODE BELOW IS TESTING ONLY
-
-
-decoder = Decoder()
-print(decoder.decode(0xFE33))
 

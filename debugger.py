@@ -42,18 +42,19 @@ class Debugger():
         # Main loop
         while True:
             # Receive opcode
-            opcode = input(">> ")
+            opcode = int(input(">> "), 16)
 
             # Decode opcode
-            """
-                There is no need to decode the given opcode, it is already in instruction format
-            """
+            instruction = self.decoder.decode(opcode)
 
+            print(hex(opcode), "-->", instruction)
+
+            # Execute opcode
             try:
-                self.chip.execute[opcode](self.chip)
+                self.chip.execute[instruction](self.chip, opcode)
                 self.error = ""
             except:
-                self.error = f"[ERROR] the instruction {opcode} doesn't exist"
+                self.error = f"[ERROR] the instruction {instruction} doesn't exist"
 
             # Clear display
             clear()

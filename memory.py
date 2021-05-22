@@ -21,7 +21,5 @@ class Memory():
         self.memory[0x200:] = file.read()
         file.close()
 
-memory = Memory()
-memory.load_program()
-print(memory.memory)
+
 
