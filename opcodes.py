@@ -78,12 +78,77 @@ def _3000(chip, opcode):
         Skip next instruction if Vx = kk.
         The interpreter compares register Vx to kk, and if they are equal, increments the program counter by 2.
     """
-    x = (opcode & 0x0F00) >> 0xFF
+    x = (opcode & 0x0F00) >> 0x8
     Vx = f"V{str(x)}"
     kk = opcode & 0x00FF
 
     if chip.registers[Vx] == kk:
         chip.registers["PC"] += 0x2
+
+
+def _4000(chip, opcode):
+    """
+        SNE Vx, byte
+        Skip next instruction if Vx != kk.
+        The interpreter compares register Vx to kk, and if they are not equal, increments the program counter by 2.
+    """
+    x = (opcode & 0x0F00) >> 0x8
+    Vx = f"V{str(x)}"
+    kk = opcode & 0x00FF
+
+    if chip.registers[Vx] != kk:
+        chip.registers["PC"] += 0x2
+
+
+def _5000(chip, opcode):
+    """
+        SE Vx, Vy
+        Skip next instruction if Vx = Vy.
+        The interpreter compares register Vx to register Vy, and if they are equal, increments the program counter by 2.
+    """
+    x = (opcode & 0x0F00) >> 0x8
+    y = (opcode & 0x00F0) >> 0x4
+    Vx = f"V{str(x)}"
+    Vy = f"V{str(y)}"
+    if chip.registers[Vx] == chip.registers[Vy]:
+        chip.registers["PC"] += 0x2
+
+
+def _6000(chip, opcode):
+    """
+        LD Vx, byte
+        Set Vx = kk.
+        The interpreter puts the value kk into register Vx.
+    """
+    x = (opcode & 0x0F00) >> 0x8
+    Vx = f"V{str(x)}"
+    kk = opcode & 0x00FF
+    chip.registers[Vx] = kk
+
+
+def _7000(chip, opcode):
+    """
+        ADD Vx, byte
+        Set Vx = Vx + kk.
+        Adds the value kk to the value of register Vx, then stores the result in Vx.
+    """
+    x = (opcode & 0x0F00) >> 0x8
+    Vx = f"V{str(x)}"
+    kk = opcode & 0x00FF
+    chip.registers[Vx] += kk
+
+
+def _8000(chip, opcode):
+    """
+        LD Vx, Vy
+        Set Vx = Vy.
+        Stores the value of register Vy in register Vx.
+    """
+    x = (opcode & 0x0F00) >> 0x8
+    y = (opcode & 0x00F0) >> 0x4
+    Vx = f"V{str(x)}"
+    Vy = f"V{str(y)}"
+    chip.registers[Vx] = chip.registers[Vy]
 
 
 dictionary = {
@@ -92,6 +157,11 @@ dictionary = {
     "1000": _1000,
     "2000": _2000,
     "3000": _3000,
+    "4000": _4000,
+    "5000": _5000,
+    "6000": _6000,
+    "7000": _7000,
+    "8000": _8000,
 }
 
 
